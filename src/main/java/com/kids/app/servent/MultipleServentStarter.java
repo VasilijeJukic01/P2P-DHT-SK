@@ -67,7 +67,7 @@ public class MultipleServentStarter {
 		
 		Process bsProcess = null;
 		ProcessBuilder bsBuilder = new ProcessBuilder(
-				"java", "-cp", "out\\production\\KiDS-P3", "com.kids.app.BootstrapServer",
+				"java", "-cp", "build\\classes\\java\\main", "com.kids.app.bootstrap.BootstrapServer",
 				String.valueOf(AppConfig.BOOTSTRAP_PORT)
 		);
 		try {
@@ -88,7 +88,7 @@ public class MultipleServentStarter {
 		for(int i = 0; i < serventCount; i++) {
 			try {
 				ProcessBuilder builder = new ProcessBuilder(
-						"java", "-cp", "out\\production\\KiDS-P3", "com.kids.app.servent.ServentMain", testName+"/servent_list.properties",
+						"java", "-cp", "build\\classes\\java\\main", "com.kids.app.servent.ServentMain", testName+"/servent_list.properties",
 						String.valueOf(i)
 				);
 

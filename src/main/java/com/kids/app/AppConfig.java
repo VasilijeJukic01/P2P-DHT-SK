@@ -42,28 +42,13 @@ public class AppConfig {
 		
 		System.err.println(timeFormat.format(now) + " - " + message);
 	}
-	
-	public static boolean INITIALIZED = false;
+
 	public static String BOOTSTRAP_ADDRESS;
 	public static int BOOTSTRAP_PORT;
 	public static int SERVENT_COUNT;
 	public static String ROOT_DIR;
 	
 	public static ChordState chordState;
-
-	private static ServentInfo[] serventInfos;
-	
-	/**
-	 * Get a servent's information by its ID
-	 * @param id servent ID
-	 * @return ServentInfo for the specified ID
-	 */
-	public static ServentInfo getInfoById(int id) {
-		if (id >= 0 && id < serventInfos.length) {
-			return serventInfos[id];
-		}
-		return null;
-	}
 	
 	/**
 	 * Reads a config file. Should be called once at start of app.
@@ -98,7 +83,6 @@ public class AppConfig {
 
 		try {
 			SERVENT_COUNT = Integer.parseInt(properties.getProperty("servent_count"));
-			serventInfos = new ServentInfo[SERVENT_COUNT];
 		} catch (NumberFormatException e) {
 			timestampedErrorPrint("Problem reading servent_count. Exiting...");
 			System.exit(0);
@@ -124,15 +108,6 @@ public class AppConfig {
 			timestampedErrorPrint("Problem reading work_directory property. Exiting...");
 			System.exit(0);
 		}
-		
-		try {
-            ChordState.CHORD_SIZE = Integer.parseInt(properties.getProperty("chord_size"));
-			chordState = new ChordState();
-			
-		} catch (NumberFormatException e) {
-			timestampedErrorPrint("Problem reading chord_size. Must be a number that is a power of 2. Exiting...");
-			System.exit(0);
-		}
 
 		String portProperty = "servent"+serventId+".port";
 		int serventPort = -1;
@@ -153,20 +128,14 @@ public class AppConfig {
 		AppConfig.timestampedStandardPrint(serventIp + ":" + serventPort);
 
 		myServentInfo = new ServentInfo(serventIp, serventPort);
-		serventInfos[serventId] = myServentInfo;
 
-		for (int i = 0; i < SERVENT_COUNT; i++) {
-			if (i == serventId) {
-				continue;
-			}
-			
-			try {
-				String otherPortProperty = "servent"+i+".port";
-				int otherServentPort = Integer.parseInt(properties.getProperty(otherPortProperty));
-				serventInfos[i] = new ServentInfo(serventIp, otherServentPort);
-			} catch (NumberFormatException e) {
-				timestampedErrorPrint("Problem reading port for servent " + i + ". Continuing...");
-			}
+		try {
+			ChordState.CHORD_SIZE = Integer.parseInt(properties.getProperty("chord_size"));
+			chordState = new ChordState();
+
+		} catch (NumberFormatException e) {
+			timestampedErrorPrint("Problem reading chord_size. Must be a number that is a power of 2. Exiting...");
+			System.exit(0);
 		}
 	}
 	
