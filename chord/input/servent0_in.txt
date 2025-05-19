@@ -1,4 +1,5 @@
 pause 15000
 upload cat0.png
+list_files localhost:1100
 pause 20000
 stop

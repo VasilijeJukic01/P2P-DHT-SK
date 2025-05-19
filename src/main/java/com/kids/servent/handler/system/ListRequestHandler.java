@@ -11,6 +11,7 @@ import com.kids.servent.message.system.ListResponseMessage;
 import com.kids.servent.message.util.MessageUtil;
 import lombok.AllArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @AllArgsConstructor
@@ -27,7 +28,18 @@ public class ListRequestHandler implements MessageHandler {
                 int key = listRequestMessage.getKey();
 
                 if (AppConfig.chordState.isKeyMine(key)) {
-                    List<FileData> files = AppConfig.chordState.getSystemManager().getAllData();
+                    List<FileData> files;
+                    
+                    // Check if this node is in public mode or if the requesting node follows this node
+                    boolean isPublic = AppConfig.chordState.getSystemManager().getIsPublic().get();
+                    boolean requestorFollows = isNodeFollower(clientMessage.getSenderIpAddress(), clientMessage.getSenderPort());
+                    
+                    if (isPublic || requestorFollows) files = AppConfig.chordState.getSystemManager().getAllData();
+                    // If private and the requestor does not follow us -> return empty list
+                    else {
+                        files = new ArrayList<>();
+                        AppConfig.timestampedStandardPrint("Request for files received, but node is in PRIVATE mode and requestor doesn't follow this node");
+                    }
 
                     ListResponseMessage lrm = new ListResponseMessage(
                             AppConfig.myServentInfo.getIpAddress(),
@@ -59,4 +71,8 @@ public class ListRequestHandler implements MessageHandler {
         }
     }
 
+    private boolean isNodeFollower(String ipAddress, int port) {
+        // TODO: Implement this :D
+        return false;
+    }
 }
