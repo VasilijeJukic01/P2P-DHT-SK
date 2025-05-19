@@ -14,6 +14,11 @@ import com.kids.servent.handler.core.NullHandler;
 import com.kids.servent.handler.core.SorryHandler;
 import com.kids.servent.handler.core.UpdateHandler;
 import com.kids.servent.handler.core.WelcomeHandler;
+import com.kids.servent.handler.system.ReplicateHandler;
+import com.kids.servent.handler.system.UploadAckHandler;
+import com.kids.servent.handler.system.UploadHandler;
+import com.kids.servent.handler.token.SuzukiTokenHandler;
+import com.kids.servent.handler.token.SuzukiTokenRequestHandler;
 import com.kids.servent.message.Message;
 import com.kids.servent.message.util.MessageUtil;
 import lombok.NoArgsConstructor;
@@ -35,7 +40,6 @@ public class SimpleServentListener implements Runnable, Cancellable {
 			listenerSocket = new ServerSocket(AppConfig.myServentInfo.getListenerPort(), 100);
 			listenerSocket.setSoTimeout(1000);
 		} catch (IOException e) {
-			AppConfig.timestampedErrorPrint("Couldn't open listener socket on: " + AppConfig.myServentInfo.getListenerPort());
 			System.exit(0);
 		}
 
@@ -60,6 +64,21 @@ public class SimpleServentListener implements Runnable, Cancellable {
 					break;
 				case UPDATE:
 					messageHandler = new UpdateHandler(clientMessage);
+					break;
+				case SUZUKI_TOKEN_REQUEST:
+					messageHandler = new SuzukiTokenRequestHandler(clientMessage);
+					break;
+				case SUZUKI_TOKEN:
+					messageHandler = new SuzukiTokenHandler(clientMessage);
+					break;
+				case UPLOAD:
+					messageHandler = new UploadHandler(clientMessage);
+					break;
+				case UPLOAD_ACK:
+					messageHandler = new UploadAckHandler(clientMessage);
+					break;
+				case REPLICATE:
+					messageHandler = new ReplicateHandler(clientMessage);
 					break;
 				case POISON:
 					break;

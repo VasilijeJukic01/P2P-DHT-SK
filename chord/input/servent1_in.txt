@@ -1,5 +1,4 @@
-pause 40000
-pause 5000
-dht_get 2
-pause 5000
+pause 10000
+upload cat1.png private
+pause 9000
 stop

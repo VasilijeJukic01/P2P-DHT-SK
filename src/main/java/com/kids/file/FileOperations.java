@@ -15,4 +15,9 @@ public class FileOperations {
         return path.hashCode() % CHORD_SIZE;
     }
 
+    public static boolean isImageFile(String path) {
+        if (path == null || path.isEmpty()) return false;
+
+        return path.toLowerCase().matches(".*\\.(jpg|jpeg|png|gif|bmp|tiff|webp|svg)$");
+    }
 }

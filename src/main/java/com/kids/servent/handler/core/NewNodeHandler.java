@@ -6,6 +6,7 @@ import java.util.Map.Entry;
 
 import com.kids.app.AppConfig;
 import com.kids.app.servent.ServentInfo;
+import com.kids.file.FileData;
 import com.kids.servent.handler.MessageHandler;
 import com.kids.servent.message.Message;
 import com.kids.servent.message.MessageType;
@@ -46,15 +47,15 @@ public class NewNodeHandler implements MessageHandler {
 				if (hisPred == null) hisPred = AppConfig.myServentInfo;
 				
 				AppConfig.chordState.setPredecessorInfo(newNodeInfo);
-				
-				Map<Integer, Integer> myValues = AppConfig.chordState.getValueMap();
-				Map<Integer, Integer> hisValues = new HashMap<>();
+
+				Map<Integer, Map<String, FileData>> myValues = AppConfig.chordState.getData();
+				Map<Integer, Map<String, FileData>> hisValues = new HashMap<>();
 				
 				int myId = AppConfig.myServentInfo.getChordId();
 				int hisPredId = hisPred.getChordId();
 				int newNodeId = newNodeInfo.getChordId();
 				
-				for (Entry<Integer, Integer> valueEntry : myValues.entrySet()) {
+				for (Entry<Integer, Map<String, FileData>> valueEntry : myValues.entrySet()) {
 					if (hisPredId == myId) { // I am first and he is second
 						if (myId < newNodeId) {
 							if (valueEntry.getKey() <= newNodeId && valueEntry.getKey() > myId) {
@@ -87,7 +88,7 @@ public class NewNodeHandler implements MessageHandler {
 				for (Integer key : hisValues.keySet()) { // Remove his values from my map
 					myValues.remove(key);
 				}
-				AppConfig.chordState.setValueMap(myValues);
+				AppConfig.chordState.setData(myValues);
 
 				WelcomeMessage wm = new WelcomeMessage(
 						AppConfig.myServentInfo.getIpAddress(),

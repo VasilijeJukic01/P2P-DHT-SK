@@ -7,12 +7,11 @@ import java.util.Scanner;
 import com.kids.app.AppConfig;
 import com.kids.app.Cancellable;
 import com.kids.cli.command.CLICommand;
-import com.kids.cli.command.implementation.DHTGetCommand;
-import com.kids.cli.command.implementation.DHTPutCommand;
 import com.kids.cli.command.implementation.InfoCommand;
 import com.kids.cli.command.implementation.PauseCommand;
 import com.kids.cli.command.implementation.StopCommand;
 import com.kids.cli.command.implementation.SuccessorInfoCommand;
+import com.kids.cli.command.implementation.system.UploadCommand;
 import com.kids.servent.SimpleServentListener;
 
 /**
@@ -44,8 +43,7 @@ public class CLIParser implements Runnable, Cancellable {
 		commandList.add(new InfoCommand());
 		commandList.add(new PauseCommand());
 		commandList.add(new SuccessorInfoCommand());
-		commandList.add(new DHTGetCommand());
-		commandList.add(new DHTPutCommand());
+		commandList.add(new UploadCommand());
 		commandList.add(new StopCommand(this, listener));
 	}
 	
