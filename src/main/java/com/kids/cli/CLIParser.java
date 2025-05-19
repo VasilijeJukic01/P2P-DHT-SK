@@ -11,6 +11,7 @@ import com.kids.cli.command.implementation.InfoCommand;
 import com.kids.cli.command.implementation.PauseCommand;
 import com.kids.cli.command.implementation.StopCommand;
 import com.kids.cli.command.implementation.SuccessorInfoCommand;
+import com.kids.cli.command.implementation.system.ListCommand;
 import com.kids.cli.command.implementation.system.UploadCommand;
 import com.kids.servent.SimpleServentListener;
 
@@ -27,6 +28,7 @@ import com.kids.servent.SimpleServentListener;
  * <li><code>causal_broadcast [text]</code> - causally broadcasts the given text to all nodes</li>
  * <li><code>print_causal</code> - prints all received causal broadcast messages</li>
  * <li><code>stop</code> - stops the servent and program finishes</li>
+ * <li><code>list_files [address:port]</code> - lists files of a node at address:port</li>
  * </ul>
  * 
  * @author bmilojkovic
@@ -44,6 +46,7 @@ public class CLIParser implements Runnable, Cancellable {
 		commandList.add(new PauseCommand());
 		commandList.add(new SuccessorInfoCommand());
 		commandList.add(new UploadCommand());
+		commandList.add(new ListCommand());
 		commandList.add(new StopCommand(this, listener));
 	}
 	

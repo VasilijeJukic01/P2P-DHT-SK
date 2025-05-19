@@ -14,9 +14,7 @@ import com.kids.servent.handler.core.NullHandler;
 import com.kids.servent.handler.core.SorryHandler;
 import com.kids.servent.handler.core.UpdateHandler;
 import com.kids.servent.handler.core.WelcomeHandler;
-import com.kids.servent.handler.system.ReplicateHandler;
-import com.kids.servent.handler.system.UploadAckHandler;
-import com.kids.servent.handler.system.UploadHandler;
+import com.kids.servent.handler.system.*;
 import com.kids.servent.handler.token.SuzukiTokenHandler;
 import com.kids.servent.handler.token.SuzukiTokenRequestHandler;
 import com.kids.servent.message.Message;
@@ -79,6 +77,12 @@ public class SimpleServentListener implements Runnable, Cancellable {
 					break;
 				case REPLICATE:
 					messageHandler = new ReplicateHandler(clientMessage);
+					break;
+				case LIST_IMAGES_REQUEST:
+					messageHandler = new ListRequestHandler(clientMessage);
+					break;
+					case LIST_IMAGES_RESPONSE:
+					messageHandler = new ListResponseHandler(clientMessage);
 					break;
 				case POISON:
 					break;

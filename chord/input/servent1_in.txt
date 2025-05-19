@@ -1,4 +1,5 @@
 pause 10000
-upload cat1.png private
+upload cat1.png
+list_files localhost:1000
 pause 15000
 stop

@@ -18,7 +18,7 @@ public class UploadCommand implements CLICommand {
     public void execute(String args) {
         String[] parts = args.split(" ");
 
-        if (parts.length != 2) {
+        if (parts.length != 1) {
             AppConfig.timestampedErrorPrint("Invalid number of arguments for Upload Command.");
             return;
         }

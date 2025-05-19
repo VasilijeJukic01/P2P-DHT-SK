@@ -11,16 +11,18 @@ import com.kids.servent.message.system.UploadMessage;
 import com.kids.servent.message.util.MessageUtil;
 import com.kids.app.servent.ServentIdentity;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 @AllArgsConstructor
 public class SystemManager {
 
-    private final AtomicBoolean isPublic = new AtomicBoolean(false);
+    @Getter private final AtomicBoolean isPublic = new AtomicBoolean(true);
     private final Map<Integer, Map<String, FileData>> data;
     private final DistributedMutex<ServentIdentity, SuzukiKasamiToken> suzukiKasamiMutex;
 
@@ -72,10 +74,12 @@ public class SystemManager {
         return fileData;
     }
 
-    public List<FileData> getData(int key) {
-        Map<String, FileData> map = data.get(key);
-        if (map != null) return List.copyOf(map.values());
-        return List.of();
+    public List<FileData> getAllData() {
+        List<FileData> allFiles = new ArrayList<>();
+        for (Map<String, FileData> fileMap : data.values()) {
+            allFiles.addAll(fileMap.values());
+        }
+        return allFiles;
     }
 
     private void createReplicas(FileData fileData) {
