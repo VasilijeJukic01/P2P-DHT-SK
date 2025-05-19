@@ -3,7 +3,6 @@ package com.kids.servent.handler.system;
 import com.kids.app.AppConfig;
 import com.kids.file.FileData;
 import com.kids.file.FileOperations;
-import com.kids.file.Visibility;
 import com.kids.servent.handler.MessageHandler;
 import com.kids.servent.message.Message;
 import com.kids.servent.message.MessageType;
@@ -26,9 +25,8 @@ public class ReplicateHandler implements MessageHandler {
             String path = fileData.path();
             int originalPort = fileData.serventIdentity().port();
             String originalAddress = fileData.serventIdentity().ip();
-            Visibility visibility = fileData.visibility();
 
-            AppConfig.chordState.getSystemManager().putIntoData(key, path, originalAddress, originalPort, visibility);
+            AppConfig.chordState.getSystemManager().putIntoData(key, path, originalAddress, originalPort);
             AppConfig.timestampedStandardPrint("Stored replica of image " + path + " (originally uploaded by: " + originalAddress + ":" + originalPort + ")");
         }
         else {

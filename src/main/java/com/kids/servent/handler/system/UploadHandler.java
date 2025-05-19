@@ -1,7 +1,6 @@
 package com.kids.servent.handler.system;
 
 import com.kids.app.AppConfig;
-import com.kids.file.Visibility;
 import com.kids.servent.handler.MessageHandler;
 import com.kids.servent.message.Message;
 import com.kids.servent.message.MessageType;
@@ -22,9 +21,8 @@ public class UploadHandler implements MessageHandler {
             String path = uploadMessage.getPath();
             String address = uploadMessage.getRequesterIpAddress();
             int port = uploadMessage.getRequesterPort();
-            Visibility visibility = uploadMessage.getVisibility();
 
-            AppConfig.chordState.getSystemManager().upload(key, path, address, port, visibility);
+            AppConfig.chordState.getSystemManager().upload(key, path, address, port);
         }
         else {
             AppConfig.timestampedErrorPrint("Upload handler got a message that is not UPLOAD");

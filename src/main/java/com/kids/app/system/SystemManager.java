@@ -3,7 +3,6 @@ package com.kids.app.system;
 import com.kids.app.AppConfig;
 import com.kids.app.servent.ServentInfo;
 import com.kids.file.FileData;
-import com.kids.file.Visibility;
 import com.kids.mutex.DistributedMutex;
 import com.kids.mutex.SuzukiKasamiToken;
 import com.kids.servent.message.system.ReplicateMessage;
@@ -14,17 +13,20 @@ import com.kids.app.servent.ServentIdentity;
 import lombok.AllArgsConstructor;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 @AllArgsConstructor
 public class SystemManager {
 
+    private final AtomicBoolean isPublic = new AtomicBoolean(false);
     private final Map<Integer, Map<String, FileData>> data;
     private final DistributedMutex<ServentIdentity, SuzukiKasamiToken> suzukiKasamiMutex;
 
-    public void upload(int key, String path, String address,  int port, Visibility visibility) {
+    public void upload(int key, String path, String address,  int port) {
         if (AppConfig.chordState.isKeyMine(key)) {
-            FileData fileData = putIntoData(key, path, address, port, visibility);
+            FileData fileData = putIntoData(key, path, address, port);
             AppConfig.timestampedStandardPrint("Storing image: " + fileData.path() + " (uploaded by: " + fileData.serventIdentity() + ")");
 
             // Inform neighbours about the new file and create replication
@@ -54,21 +56,26 @@ public class SystemManager {
                     address,
                     port,
                     key,
-                    path,
-                    visibility
+                    path
             );
 
             MessageUtil.sendMessage(pm);
         }
     }
 
-    public FileData putIntoData(int key, String path, String address, int port, Visibility visibility) {
+    public FileData putIntoData(int key, String path, String address, int port) {
         Map<String, FileData> map = data.computeIfAbsent(key, k -> new HashMap<>());
         ServentIdentity serventIdentity = new ServentIdentity(address, port);
-        FileData fileData = new FileData(path, serventIdentity, visibility);
+        FileData fileData = new FileData(path, serventIdentity);
         map.putIfAbsent(path, fileData);
 
         return fileData;
+    }
+
+    public List<FileData> getData(int key) {
+        Map<String, FileData> map = data.get(key);
+        if (map != null) return List.copyOf(map.values());
+        return List.of();
     }
 
     private void createReplicas(FileData fileData) {

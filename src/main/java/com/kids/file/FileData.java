@@ -9,8 +9,7 @@ import java.io.Serializable;
 
 public record FileData(
         String path,
-        ServentIdentity serventIdentity,
-        Visibility visibility
+        ServentIdentity serventIdentity
 ) implements Serializable {
 
     @Serial
