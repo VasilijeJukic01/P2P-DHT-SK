@@ -12,7 +12,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.IntStream;
 
+import com.kids.app.servent.ServentIdentity;
 import com.kids.app.servent.ServentInfo;
+import com.kids.app.system.SystemManager;
+import com.kids.file.FileData;
+import com.kids.mutex.DistributedMutex;
+import com.kids.mutex.SuzukiKasamiMutex;
+import com.kids.mutex.SuzukiKasamiToken;
 import com.kids.servent.message.core.WelcomeMessage;
 import lombok.Getter;
 import lombok.Setter;
@@ -40,6 +46,7 @@ import lombok.Setter;
  * @author bmilojkovic
  *
  */
+@Getter
 public class ChordState {
 
 	public static int CHORD_SIZE;
@@ -57,9 +64,12 @@ public class ChordState {
 		}
 	}
 
-	@Getter @Setter private ServentInfo[] successorTable;
-	@Getter @Setter private ServentInfo predecessorInfo;
-	@Getter @Setter private Map<Integer, Integer> valueMap;
+	@Getter private final DistributedMutex<ServentIdentity, SuzukiKasamiToken> mutex;
+	@Getter private final SystemManager systemManager;
+
+	@Setter private ServentInfo[] successorTable;
+	@Setter private ServentInfo predecessorInfo;
+	@Setter private Map<Integer, Map<String, FileData>> data;
 	private final List<ServentInfo> allNodeInfo;
 	
 	public ChordState() {
@@ -80,8 +90,10 @@ public class ChordState {
 				.forEach(i -> successorTable[i] = null);
 		
 		this.predecessorInfo = null;
-		this.valueMap = new HashMap<>();
+		this.data = new HashMap<>();
 		this.allNodeInfo = new ArrayList<>();
+		this.mutex = new SuzukiKasamiMutex(CHORD_SIZE, AppConfig.myServentInfo.getChordId());
+		this.systemManager = new SystemManager(data, mutex);
 	}
 	
 	/**
@@ -91,15 +103,15 @@ public class ChordState {
 	 */
 	public void init(WelcomeMessage welcomeMsg) {
 		// Set a temporary pointer to next node, for sending of update message
-		successorTable[0] = new ServentInfo("localhost", welcomeMsg.getSenderPort());
-		this.valueMap = welcomeMsg.getValues();
+		successorTable[0] = new ServentInfo(welcomeMsg.getSenderIpAddress(), welcomeMsg.getSenderPort());
+		this.data = welcomeMsg.getData();
 		
 		// Tell bootstrap this node is not a collider
 		try {
-			Socket bsSocket = new Socket("localhost", AppConfig.BOOTSTRAP_PORT);
+			Socket bsSocket = new Socket(AppConfig.BOOTSTRAP_ADDRESS, AppConfig.BOOTSTRAP_PORT);
 			
 			PrintWriter bsWriter = new PrintWriter(bsSocket.getOutputStream());
-			bsWriter.write("New\n" + AppConfig.myServentInfo.getListenerPort() + "\n");
+			bsWriter.write("New\n" + AppConfig.myServentInfo.getIpAddress() + "\n" + AppConfig.myServentInfo.getListenerPort() + "\n");
 			
 			bsWriter.flush();
 			bsSocket.close();
