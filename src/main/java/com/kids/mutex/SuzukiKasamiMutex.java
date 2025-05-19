@@ -122,7 +122,6 @@ public class SuzukiKasamiMutex implements DistributedMutex<ServentIdentity, Suzu
 
             MessageUtil.sendMessage(tokenMessage);
             hasToken.set(false);
-            usesToken.set(false);
             token = null;
         }
     }

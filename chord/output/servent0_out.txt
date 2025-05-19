@@ -1,30 +1,29 @@
-13:11:19 - localhost:1000
-13:11:19 - Starting servent [5|localhost|1000]
-13:11:19 - Pausing for 15000 ms
-13:11:19 - First node in Chord system.
-13:11:19 - Token set successfully
-13:11:29 - Got message [cHashSp:39|sPort:localhost:1100|mId:0|mTxt:|mTyp:SUZUKI_TOKEN_REQUEST|rPort:localhost:1000|cHashRp:5]
-13:11:31 - Sending message [cHashSp:5|sPort:localhost:1000|mId:0|mTxt:|mTyp:SUZUKI_TOKEN|rPort:localhost:1100|cHashRp:39]
-13:11:32 - Got message [cHashSp:39|sPort:localhost:1100|mId:1|mTxt:|mTyp:NEW_NODE|rPort:localhost:1000|cHashRp:5]
-13:11:33 - Sending message [cHashSp:5|sPort:localhost:1000|mId:1|mTxt:|mTyp:WELCOME|rPort:localhost:1100|cHashRp:39]
-13:11:34 - Requested token
-13:11:34 - Got message [cHashSp:39|sPort:localhost:1100|mId:2|mTxt:|mTyp:UPDATE|rPort:localhost:1000|cHashRp:5]
-13:11:35 - Sending message [cHashSp:39|sPort:localhost:1100|mId:2|mTxt:|mTyp:UPDATE|rPort:localhost:1100|cHashRp:39]
-13:11:36 - Got message [cHashSp:39|sPort:localhost:1100|mId:3|mTxt:|mTyp:SUZUKI_TOKEN|rPort:localhost:1000|cHashRp:5]
-13:11:36 - Received token from localhost:1100
-13:11:36 - Token set successfully
-13:11:36 - Initiating upload of image: cat0.png
-13:11:36 - Storing image: cat0.png (uploaded by: localhost:1000)
-13:11:36 - Released token
-13:11:36 - Released token
-13:11:36 - Pausing for 6000 ms
-13:11:37 - Sending message [cHashSp:5|sPort:localhost:1000|mId:4|mTxt:cat0.png|mTyp:REPLICATE|rPort:localhost:1100|cHashRp:39]
-13:11:37 - Sending message [cHashSp:5|sPort:localhost:1000|mId:3|mTxt:cat0.png|mTyp:REPLICATE|rPort:localhost:1100|cHashRp:39]
-13:11:39 - Got message [cHashSp:39|sPort:localhost:1100|mId:4|mTxt:|mTyp:SUZUKI_TOKEN_REQUEST|rPort:localhost:1000|cHashRp:5]
-13:11:40 - Got message [cHashSp:55|sPort:localhost:1200|mId:0|mTxt:|mTyp:SUZUKI_TOKEN_REQUEST|rPort:localhost:1000|cHashRp:5]
-13:11:41 - Sending message [cHashSp:5|sPort:localhost:1000|mId:5|mTxt:|mTyp:SUZUKI_TOKEN|rPort:localhost:1100|cHashRp:39]
-13:11:42 - Got message [cHashSp:39|sPort:localhost:1100|mId:6|mTxt:cat1.png|mTyp:REPLICATE|rPort:localhost:1000|cHashRp:5]
-13:11:42 - Stored replica of image cat1.png (originally uploaded by: localhost:1100)
-13:11:42 - Got message [cHashSp:39|sPort:localhost:1100|mId:5|mTxt:cat1.png|mTyp:REPLICATE|rPort:localhost:1000|cHashRp:5]
-13:11:42 - Stored replica of image cat1.png (originally uploaded by: localhost:1100)
-13:11:42 - Stopping...
+16:45:59 - localhost:1000
+16:45:59 - Starting servent [5|localhost|1000]
+16:45:59 - Pausing for 15000 ms
+16:45:59 - First node in Chord system.
+16:45:59 - Token set successfully
+16:46:11 - Got message [cHashSp:39|sPort:localhost:1100|mId:0|mTxt:|mTyp:SUZUKI_TOKEN_REQUEST|rPort:localhost:1000|cHashRp:5]
+16:46:12 - Sending message [cHashSp:5|sPort:localhost:1000|mId:0|mTxt:|mTyp:SUZUKI_TOKEN|rPort:localhost:1100|cHashRp:39]
+16:46:14 - Got message [cHashSp:39|sPort:localhost:1100|mId:1|mTxt:|mTyp:NEW_NODE|rPort:localhost:1000|cHashRp:5]
+16:46:14 - Requested token
+16:46:14 - Sending message [cHashSp:5|sPort:localhost:1000|mId:1|mTxt:|mTyp:WELCOME|rPort:localhost:1100|cHashRp:39]
+16:46:16 - Got message [cHashSp:39|sPort:localhost:1100|mId:2|mTxt:|mTyp:UPDATE|rPort:localhost:1000|cHashRp:5]
+16:46:17 - Sending message [cHashSp:39|sPort:localhost:1100|mId:2|mTxt:|mTyp:UPDATE|rPort:localhost:1100|cHashRp:39]
+16:46:18 - Got message [cHashSp:39|sPort:localhost:1100|mId:3|mTxt:|mTyp:SUZUKI_TOKEN|rPort:localhost:1000|cHashRp:5]
+16:46:18 - Received token from localhost:1100
+16:46:18 - Token set successfully
+16:46:18 - Initiating upload of image: cat0.png
+16:46:18 - Storing image: cat0.png (uploaded by: localhost:1000)
+16:46:18 - Released token
+16:46:18 - Pausing for 20000 ms
+16:46:18 - Sending message [cHashSp:5|sPort:localhost:1000|mId:4|mTxt:cat0.png|mTyp:REPLICATE|rPort:localhost:1100|cHashRp:39]
+16:46:19 - Sending message [cHashSp:5|sPort:localhost:1000|mId:3|mTxt:cat0.png|mTyp:REPLICATE|rPort:localhost:1100|cHashRp:39]
+16:46:20 - Got message [cHashSp:39|sPort:localhost:1100|mId:4|mTxt:|mTyp:SUZUKI_TOKEN_REQUEST|rPort:localhost:1000|cHashRp:5]
+16:46:20 - Got message [cHashSp:55|sPort:localhost:1200|mId:0|mTxt:|mTyp:SUZUKI_TOKEN_REQUEST|rPort:localhost:1000|cHashRp:5]
+16:46:22 - Sending message [cHashSp:5|sPort:localhost:1000|mId:5|mTxt:|mTyp:SUZUKI_TOKEN|rPort:localhost:1100|cHashRp:39]
+16:46:23 - Got message [cHashSp:39|sPort:localhost:1100|mId:6|mTxt:cat1.png|mTyp:REPLICATE|rPort:localhost:1000|cHashRp:5]
+16:46:23 - Stored replica of image cat1.png (originally uploaded by: localhost:1100)
+16:46:23 - Got message [cHashSp:39|sPort:localhost:1100|mId:5|mTxt:cat1.png|mTyp:REPLICATE|rPort:localhost:1000|cHashRp:5]
+16:46:23 - Stored replica of image cat1.png (originally uploaded by: localhost:1100)
+16:46:38 - Stopping...

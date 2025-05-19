@@ -1,4 +1,4 @@
 pause 15000
 upload cat0.png private
-pause 6000
+pause 20000
 stop

@@ -44,22 +44,17 @@ public class UploadCommand implements CLICommand {
                             .map(n -> new ServentIdentity(n.getIpAddress(), n.getListenerPort()))
                             .toList();
 
-            try {
-                AppConfig.chordState.getMutex().lock(serventIdentity, false);
+            AppConfig.chordState.getMutex().lock(serventIdentity, false);
 
-                AppConfig.timestampedStandardPrint("Initiating upload of image: " + path);
-                
-                AppConfig.chordState.getSystemManager().upload(
-                        key,
-                        path,
-                        AppConfig.myServentInfo.getIpAddress(),
-                        AppConfig.myServentInfo.getListenerPort(),
-                        isPublic ? Visibility.PUBLIC : Visibility.PRIVATE
-                );
-            } finally {
-                // TODO: Stay here
-                AppConfig.chordState.getMutex().unlock();
-            }
+            AppConfig.timestampedStandardPrint("Initiating upload of image: " + path);
+
+            AppConfig.chordState.getSystemManager().upload(
+                    key,
+                    path,
+                    AppConfig.myServentInfo.getIpAddress(),
+                    AppConfig.myServentInfo.getListenerPort(),
+                    isPublic ? Visibility.PUBLIC : Visibility.PRIVATE
+            );
         }
         else {
             AppConfig.timestampedErrorPrint("Invalid file path in upload command: " + path);
