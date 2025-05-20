@@ -94,7 +94,7 @@ public class ChordState {
 		this.data = new HashMap<>();
 		this.allNodeInfo = new ArrayList<>();
 		this.mutex = new SuzukiKasamiMutex(CHORD_SIZE, AppConfig.myServentInfo.getChordId());
-		this.systemManager = new SystemManager(data, mutex, new CopyOnWriteArrayList<>());
+		this.systemManager = new SystemManager(data, mutex, new CopyOnWriteArrayList<>(), new CopyOnWriteArrayList<>(), new CopyOnWriteArrayList<>());
 	}
 	
 	/**

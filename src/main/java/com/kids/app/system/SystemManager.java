@@ -24,6 +24,9 @@ public class SystemManager {
     private final DistributedMutex<ServentIdentity, SuzukiKasamiToken> suzukiKasamiMutex;
     private List<String> removeList;
 
+    @Getter private final List<String> followers;
+    @Getter private final List<String> pendingFollows;
+
     public void upload(int key, String path, String address,  int port) {
         if (AppConfig.chordState.isKeyMine(key)) {
             FileData fileData = putIntoData(key, path, address, port);
@@ -163,6 +166,39 @@ public class SystemManager {
             if (!shouldRemove) copyOnWrite.add(p);
         }
         removeList = copyOnWrite;
+    }
+
+    public void addPendingFollow(String address, int port) {
+        String follower = address + ":" + port;
+        if (!pendingFollows.contains(follower) && !followers.contains(follower)) {
+            pendingFollows.add(follower);
+            AppConfig.timestampedStandardPrint("Received follow request from " + follower);
+        }
+    }
+
+    public void acceptFollow(String address, int port) {
+        String follower = address + ":" + port;
+        if (pendingFollows.contains(follower)) {
+            pendingFollows.remove(follower);
+            followers.add(follower);
+
+            FollowAcceptMessage fam = new FollowAcceptMessage(
+                    AppConfig.myServentInfo.getIpAddress(),
+                    AppConfig.myServentInfo.getListenerPort(),
+                    address,
+                    port
+            );
+            MessageUtil.sendMessage(fam);
+
+            AppConfig.timestampedStandardPrint("Accepted follow request from " + follower);
+        }
+        else {
+            AppConfig.timestampedErrorPrint("No pending follow request from " + follower);
+        }
+    }
+
+    public boolean isFollower(String address, int port){
+        return followers.contains(address + ":" + port);
     }
 
     // Private

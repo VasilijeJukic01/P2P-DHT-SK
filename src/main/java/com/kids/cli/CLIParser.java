@@ -11,10 +11,7 @@ import com.kids.cli.command.implementation.InfoCommand;
 import com.kids.cli.command.implementation.PauseCommand;
 import com.kids.cli.command.implementation.StopCommand;
 import com.kids.cli.command.implementation.SuccessorInfoCommand;
-import com.kids.cli.command.implementation.system.ListCommand;
-import com.kids.cli.command.implementation.system.RemoveCommand;
-import com.kids.cli.command.implementation.system.UploadCommand;
-import com.kids.cli.command.implementation.system.VisibilityCommand;
+import com.kids.cli.command.implementation.system.*;
 import com.kids.servent.SimpleServentListener;
 
 /**
@@ -51,6 +48,9 @@ public class CLIParser implements Runnable, Cancellable {
 		commandList.add(new ListCommand());
 		commandList.add(new VisibilityCommand());
 		commandList.add(new RemoveCommand());
+		commandList.add(new FollowCommand());
+		commandList.add(new PendingCommand());
+		commandList.add(new AcceptCommand());
 		commandList.add(new StopCommand(this, listener));
 	}
 	

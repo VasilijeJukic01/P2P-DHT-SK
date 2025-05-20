@@ -1,6 +1,9 @@
-12:10:27 - localhost:1300
-12:10:27 - Starting servent [53|localhost|1300]
-12:10:27 - Pausing for 8000 ms
-12:10:35 - Pausing for 1000 ms
-12:10:36 - Pausing for 20000 ms
-12:10:56 - Stopping...
+14:13:00 - localhost:1300
+14:13:00 - Starting servent [53|localhost|1300]
+14:13:00 - Pausing for 15000 ms
+14:13:15 - Sending follow request to localhost:1400
+14:13:15 - Pausing for 24000 ms
+14:13:16 - Sending message [cHashSp:53|sPort:localhost:1300|mId:0|mTxt:|mTyp:FOLLOW_REQUEST|rPort:localhost:1400|cHashRp:60]
+14:13:21 - Got message [cHashSp:60|sPort:localhost:1400|mId:0|mTxt:|mTyp:FOLLOW_ACCEPT|rPort:localhost:1300|cHashRp:53]
+14:13:21 - Follow request has been accepted localhost:1400
+14:13:39 - Stopping...

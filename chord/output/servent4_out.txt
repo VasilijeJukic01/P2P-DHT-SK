@@ -1,7 +1,14 @@
-12:10:37 - localhost:1400
-12:10:37 - Starting servent [60|localhost|1400]
-12:10:37 - Pausing for 1000 ms
-12:10:38 - Pausing for 4000 ms
-12:10:42 - Pausing for 6000 ms
-12:10:48 - Pausing for 20000 ms
-12:11:08 - Stopping...
+14:13:10 - localhost:1400
+14:13:10 - Starting servent [60|localhost|1400]
+14:13:10 - Pausing for 5000 ms
+14:13:15 - No pending follow requests
+14:13:15 - Pausing for 5000 ms
+14:13:16 - Got message [cHashSp:53|sPort:localhost:1300|mId:0|mTxt:|mTyp:FOLLOW_REQUEST|rPort:localhost:1400|cHashRp:60]
+14:13:16 - Received follow request from localhost:1300
+14:13:20 - Pending follow requests:
+14:13:20 - 1. localhost:1300
+14:13:20 - To accept a request, use 'accept [address:port]' command
+14:13:20 - Accepted follow request from localhost:1300
+14:13:20 - Pausing for 25000 ms
+14:13:21 - Sending message [cHashSp:60|sPort:localhost:1400|mId:0|mTxt:|mTyp:FOLLOW_ACCEPT|rPort:localhost:1300|cHashRp:53]
+14:13:45 - Stopping...
