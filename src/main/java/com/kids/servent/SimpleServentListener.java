@@ -81,8 +81,17 @@ public class SimpleServentListener implements Runnable, Cancellable {
 				case LIST_IMAGES_REQUEST:
 					messageHandler = new ListRequestHandler(clientMessage);
 					break;
-					case LIST_IMAGES_RESPONSE:
+				case LIST_IMAGES_RESPONSE:
 					messageHandler = new ListResponseHandler(clientMessage);
+					break;
+				case REMOVE:
+					messageHandler = new RemoveHandler(clientMessage);
+					break;
+				case REMOVE_ACK:
+					messageHandler = new RemoveAckHandler(clientMessage);
+					break;
+				case REMOVE_REPLICA:
+					messageHandler = new RemoveReplicaHandler(clientMessage);
 					break;
 				case POISON:
 					break;

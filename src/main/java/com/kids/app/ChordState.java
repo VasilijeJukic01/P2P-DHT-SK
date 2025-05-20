@@ -10,6 +10,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.IntStream;
 
 import com.kids.app.servent.ServentIdentity;
@@ -93,7 +94,7 @@ public class ChordState {
 		this.data = new HashMap<>();
 		this.allNodeInfo = new ArrayList<>();
 		this.mutex = new SuzukiKasamiMutex(CHORD_SIZE, AppConfig.myServentInfo.getChordId());
-		this.systemManager = new SystemManager(data, mutex);
+		this.systemManager = new SystemManager(data, mutex, new CopyOnWriteArrayList<>());
 	}
 	
 	/**

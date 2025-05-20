@@ -1,37 +1,43 @@
-23:57:57 - localhost:1100
-23:57:57 - Starting servent [39|localhost|1100]
-23:57:57 - Visibility set to PRIVATE - files are only visible to nodes that follow this node
-23:57:57 - Pausing for 10000 ms
-23:57:57 - Acquiring token...
-23:57:57 - Requested token
-23:57:59 - Sending message [cHashSp:39|sPort:localhost:1100|mId:0|mTxt:|mTyp:SUZUKI_TOKEN_REQUEST|rPort:localhost:1000|cHashRp:5]
-23:58:00 - Got message [cHashSp:5|sPort:localhost:1000|mId:0|mTxt:|mTyp:SUZUKI_TOKEN|rPort:localhost:1100|cHashRp:39]
-23:58:00 - Received token from localhost:1000
-23:58:00 - Token set successfully
-23:58:00 - Got token
-23:58:00 - Sending message [cHashSp:39|sPort:localhost:1100|mId:1|mTxt:|mTyp:NEW_NODE|rPort:localhost:1000|cHashRp:5]
-23:58:01 - Got message [cHashSp:5|sPort:localhost:1000|mId:1|mTxt:|mTyp:WELCOME|rPort:localhost:1100|cHashRp:39]
-23:58:02 - Sending message [cHashSp:39|sPort:localhost:1100|mId:2|mTxt:|mTyp:UPDATE|rPort:localhost:1000|cHashRp:5]
-23:58:04 - Got message [cHashSp:39|sPort:localhost:1100|mId:2|mTxt:|mTyp:UPDATE|rPort:localhost:1100|cHashRp:39]
-23:58:04 - Released token
-23:58:05 - Sending message [cHashSp:39|sPort:localhost:1100|mId:3|mTxt:|mTyp:SUZUKI_TOKEN|rPort:localhost:1000|cHashRp:5]
-23:58:06 - Got message [cHashSp:5|sPort:localhost:1000|mId:4|mTxt:cat0.png|mTyp:REPLICATE|rPort:localhost:1100|cHashRp:39]
-23:58:06 - Stored replica of image cat0.png (originally uploaded by: localhost:1000)
-23:58:06 - Got message [cHashSp:5|sPort:localhost:1000|mId:3|mTxt:cat0.png|mTyp:REPLICATE|rPort:localhost:1100|cHashRp:39]
-23:58:06 - Stored replica of image cat0.png (originally uploaded by: localhost:1000)
-23:58:06 - Got message [cHashSp:5|sPort:localhost:1000|mId:5|mTxt:39|mTyp:LIST_IMAGES_REQUEST|rPort:localhost:1100|cHashRp:39]
-23:58:06 - Request for files received, but node is in PRIVATE mode and requestor doesn't follow this node
-23:58:07 - Requested token
-23:58:07 - Sending message [cHashSp:39|sPort:localhost:1100|mId:4|mTxt:39:[]|mTyp:LIST_IMAGES_RESPONSE|rPort:localhost:1000|cHashRp:5]
-23:58:08 - Got message [cHashSp:55|sPort:localhost:1200|mId:1|mTxt:|mTyp:SUZUKI_TOKEN_REQUEST|rPort:localhost:1100|cHashRp:39]
-23:58:08 - Sending message [cHashSp:39|sPort:localhost:1100|mId:5|mTxt:|mTyp:SUZUKI_TOKEN_REQUEST|rPort:localhost:1000|cHashRp:5]
-23:58:09 - Got message [cHashSp:5|sPort:localhost:1000|mId:6|mTxt:|mTyp:SUZUKI_TOKEN|rPort:localhost:1100|cHashRp:39]
-23:58:09 - Received token from localhost:1000
-23:58:09 - Token set successfully
-23:58:09 - Initiating upload of image: cat1.png
-23:58:09 - Storing image: cat1.png (uploaded by: localhost:1100)
-23:58:09 - Released token
-23:58:09 - Pausing for 15000 ms
-23:58:10 - Sending message [cHashSp:39|sPort:localhost:1100|mId:7|mTxt:cat1.png|mTyp:REPLICATE|rPort:localhost:1000|cHashRp:5]
-23:58:11 - Sending message [cHashSp:39|sPort:localhost:1100|mId:6|mTxt:cat1.png|mTyp:REPLICATE|rPort:localhost:1000|cHashRp:5]
-23:58:24 - Stopping...
+12:10:07 - localhost:1100
+12:10:07 - Starting servent [39|localhost|1100]
+12:10:07 - Visibility set to PRIVATE - files are only visible to nodes that follow this node
+12:10:07 - Pausing for 10000 ms
+12:10:07 - Acquiring token...
+12:10:07 - Requested token
+12:10:07 - Sending message [cHashSp:39|sPort:localhost:1100|mId:0|mTxt:|mTyp:SUZUKI_TOKEN_REQUEST|rPort:localhost:1000|cHashRp:5]
+12:10:08 - Got message [cHashSp:5|sPort:localhost:1000|mId:0|mTxt:|mTyp:SUZUKI_TOKEN|rPort:localhost:1100|cHashRp:39]
+12:10:08 - Received token from localhost:1000
+12:10:08 - Token set successfully
+12:10:08 - Got token
+12:10:09 - Sending message [cHashSp:39|sPort:localhost:1100|mId:1|mTxt:|mTyp:NEW_NODE|rPort:localhost:1000|cHashRp:5]
+12:10:10 - Got message [cHashSp:5|sPort:localhost:1000|mId:1|mTxt:|mTyp:WELCOME|rPort:localhost:1100|cHashRp:39]
+12:10:11 - Sending message [cHashSp:39|sPort:localhost:1100|mId:2|mTxt:|mTyp:UPDATE|rPort:localhost:1000|cHashRp:5]
+12:10:12 - Got message [cHashSp:39|sPort:localhost:1100|mId:2|mTxt:|mTyp:UPDATE|rPort:localhost:1100|cHashRp:39]
+12:10:12 - Released token
+12:10:12 - Got message [cHashSp:5|sPort:localhost:1000|mId:3|mTxt:|mTyp:SUZUKI_TOKEN_REQUEST|rPort:localhost:1100|cHashRp:39]
+12:10:14 - Sending message [cHashSp:39|sPort:localhost:1100|mId:3|mTxt:|mTyp:SUZUKI_TOKEN|rPort:localhost:1000|cHashRp:5]
+12:10:14 - Got message [cHashSp:5|sPort:localhost:1000|mId:5|mTxt:cat0.png|mTyp:REPLICATE|rPort:localhost:1100|cHashRp:39]
+12:10:14 - Stored replica of image cat0.png (originally uploaded by: localhost:1000)
+12:10:14 - Got message [cHashSp:5|sPort:localhost:1000|mId:4|mTxt:cat0.png|mTyp:REPLICATE|rPort:localhost:1100|cHashRp:39]
+12:10:14 - Stored replica of image cat0.png (originally uploaded by: localhost:1000)
+12:10:15 - Got message [cHashSp:5|sPort:localhost:1000|mId:6|mTxt:39|mTyp:LIST_IMAGES_REQUEST|rPort:localhost:1100|cHashRp:39]
+12:10:15 - Request for files received, but node is in PRIVATE mode and requestor doesn't follow this node
+12:10:16 - Sending message [cHashSp:39|sPort:localhost:1100|mId:4|mTxt:39:[]|mTyp:LIST_IMAGES_RESPONSE|rPort:localhost:1000|cHashRp:5]
+12:10:17 - Requested token
+12:10:17 - Got message [cHashSp:5|sPort:localhost:1000|mId:8|mTxt:-43:cat0.png|mTyp:REMOVE_REPLICA|rPort:localhost:1100|cHashRp:39]
+12:10:17 - Replica image remove: cat0.png owned by localhost:1000
+12:10:17 - Sending message [cHashSp:39|sPort:localhost:1100|mId:5|mTxt:|mTyp:SUZUKI_TOKEN_REQUEST|rPort:localhost:1000|cHashRp:5]
+12:10:18 - Got message [cHashSp:5|sPort:localhost:1000|mId:7|mTxt:-43:cat0.png|mTyp:REMOVE_REPLICA|rPort:localhost:1100|cHashRp:39]
+12:10:18 - Got message [cHashSp:55|sPort:localhost:1200|mId:1|mTxt:|mTyp:SUZUKI_TOKEN_REQUEST|rPort:localhost:1100|cHashRp:39]
+12:10:18 - Sending message [cHashSp:39|sPort:localhost:1100|mId:7|mTxt:-43:cat0.png|mTyp:REMOVE_REPLICA|rPort:localhost:1000|cHashRp:5]
+12:10:18 - Sending message [cHashSp:39|sPort:localhost:1100|mId:6|mTxt:-43:cat0.png|mTyp:REMOVE_REPLICA|rPort:localhost:1000|cHashRp:5]
+12:10:18 - Got message [cHashSp:5|sPort:localhost:1000|mId:11|mTxt:|mTyp:SUZUKI_TOKEN|rPort:localhost:1100|cHashRp:39]
+12:10:18 - Received token from localhost:1000
+12:10:18 - Token set successfully
+12:10:19 - Initiating upload of image: cat1.png
+12:10:19 - Storing image: cat1.png (uploaded by: localhost:1100)
+12:10:19 - Released token
+12:10:19 - Pausing for 20000 ms
+12:10:20 - Sending message [cHashSp:39|sPort:localhost:1100|mId:9|mTxt:cat1.png|mTyp:REPLICATE|rPort:localhost:1000|cHashRp:5]
+12:10:20 - Sending message [cHashSp:39|sPort:localhost:1100|mId:8|mTxt:cat1.png|mTyp:REPLICATE|rPort:localhost:1000|cHashRp:5]
+12:10:39 - Stopping...

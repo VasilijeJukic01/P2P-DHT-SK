@@ -1,10 +1,10 @@
-23:35:27 - localhost:1200
-23:35:27 - Starting servent [55|localhost|1200]
-23:35:27 - Pausing for 3000 ms
-23:35:27 - Acquiring token...
-23:35:27 - Requested token
-23:35:27 - Sending message [cHashSp:55|sPort:localhost:1200|mId:1|mTxt:|mTyp:SUZUKI_TOKEN_REQUEST|rPort:localhost:1100|cHashRp:39]
-23:35:28 - Sending message [cHashSp:55|sPort:localhost:1200|mId:0|mTxt:|mTyp:SUZUKI_TOKEN_REQUEST|rPort:localhost:1000|cHashRp:5]
-23:35:30 - Pausing for 9000 ms
-23:35:39 - Pausing for 10000 ms
-23:35:49 - Stopping...
+12:10:17 - localhost:1200
+12:10:17 - Starting servent [55|localhost|1200]
+12:10:17 - Pausing for 3000 ms
+12:10:17 - Acquiring token...
+12:10:17 - Requested token
+12:10:18 - Sending message [cHashSp:55|sPort:localhost:1200|mId:0|mTxt:|mTyp:SUZUKI_TOKEN_REQUEST|rPort:localhost:1000|cHashRp:5]
+12:10:18 - Sending message [cHashSp:55|sPort:localhost:1200|mId:1|mTxt:|mTyp:SUZUKI_TOKEN_REQUEST|rPort:localhost:1100|cHashRp:39]
+12:10:20 - Pausing for 9000 ms
+12:10:29 - Pausing for 20000 ms
+12:10:49 - Stopping...

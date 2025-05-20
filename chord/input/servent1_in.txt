@@ -1,5 +1,5 @@
 visibility private
 pause 10000
 upload cat1.png
-pause 15000
+pause 20000
 stop

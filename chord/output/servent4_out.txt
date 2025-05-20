@@ -1,6 +1,7 @@
-23:35:47 - localhost:1400
-23:35:47 - Starting servent [60|localhost|1400]
-23:35:47 - Pausing for 1000 ms
-23:35:48 - Pausing for 4000 ms
-23:35:52 - Pausing for 6000 ms
-23:35:58 - Pausing for 10000 ms
+12:10:37 - localhost:1400
+12:10:37 - Starting servent [60|localhost|1400]
+12:10:37 - Pausing for 1000 ms
+12:10:38 - Pausing for 4000 ms
+12:10:42 - Pausing for 6000 ms
+12:10:48 - Pausing for 20000 ms
+12:11:08 - Stopping...
