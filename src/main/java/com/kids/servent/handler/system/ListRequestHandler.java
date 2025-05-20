@@ -72,7 +72,8 @@ public class ListRequestHandler implements MessageHandler {
     }
 
     private boolean isNodeFollower(String ipAddress, int port) {
-        // TODO: Implement this :D
-        return false;
+        return AppConfig.chordState.getSystemManager().getFollowers().stream()
+                .map(node -> node.split(":"))
+                .anyMatch(parts -> parts[0].equals(ipAddress) && Integer.parseInt(parts[1]) == port);
     }
 }
