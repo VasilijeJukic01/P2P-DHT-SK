@@ -1,8 +1,8 @@
 package com.kids.file;
 
-import java.io.*;
+import com.kids.app.ChordState;
 
-import static com.kids.app.ChordState.CHORD_SIZE;
+import java.io.*;
 
 public class FileOperations {
 
@@ -12,7 +12,7 @@ public class FileOperations {
     }
 
     public static Integer hashFilePath(String path) {
-        return path.hashCode() % CHORD_SIZE;
+        return ChordState.chordHash(path);
     }
 
     public static boolean isImageFile(String path) {
