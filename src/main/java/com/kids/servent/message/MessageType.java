@@ -18,4 +18,6 @@ public enum MessageType {
 	REMOVE_REPLICA,
 	FOLLOW_REQUEST,
 	FOLLOW_ACCEPT,
+	PING,
+	PONG
 }

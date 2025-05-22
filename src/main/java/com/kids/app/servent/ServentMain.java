@@ -1,6 +1,7 @@
 package com.kids.app.servent;
 
 import com.kids.app.AppConfig;
+import com.kids.app.reliability.ServentPulseManager;
 import com.kids.cli.CLIParser;
 import com.kids.servent.SimpleServentListener;
 
@@ -59,6 +60,11 @@ public class ServentMain {
 		ServentInitializer serventInitializer = new ServentInitializer();
 		Thread initializerThread = new Thread(serventInitializer);
 		initializerThread.start();
+
+		ServentPulseManager pulseManager = new ServentPulseManager(AppConfig.chordState.getTracker());
+		AppConfig.chordState.setPulseManager(pulseManager);
+		Thread pulseThread = new Thread(pulseManager);
+		pulseThread.start();
 		
 	}
 }

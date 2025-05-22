@@ -47,6 +47,9 @@ public class AppConfig {
 	public static int BOOTSTRAP_PORT;
 	public static int SERVENT_COUNT;
 	public static String ROOT_DIR;
+
+	public static int WEAK_TIMEOUT;
+	public static int STRONG_TIMEOUT;
 	
 	public static ChordState chordState;
 	
@@ -106,6 +109,20 @@ public class AppConfig {
 			ROOT_DIR = properties.getProperty("work_dir" + serventId);
 		} catch (NullPointerException e) {
 			timestampedErrorPrint("Problem reading work_directory property. Exiting...");
+			System.exit(0);
+		}
+
+		try {
+			WEAK_TIMEOUT = Integer.parseInt(properties.getProperty("weak_timeout"));
+		} catch (NumberFormatException e) {
+			timestampedErrorPrint("Problem reading weak_timeout. Exiting...");
+			System.exit(0);
+		}
+
+		try {
+			STRONG_TIMEOUT = Integer.parseInt(properties.getProperty("strong_timeout"));
+		} catch (NumberFormatException e) {
+			timestampedErrorPrint("Problem reading strong_timeout. Exiting...");
 			System.exit(0);
 		}
 

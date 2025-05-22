@@ -14,6 +14,8 @@ import com.kids.servent.handler.core.NullHandler;
 import com.kids.servent.handler.core.SorryHandler;
 import com.kids.servent.handler.core.UpdateHandler;
 import com.kids.servent.handler.core.WelcomeHandler;
+import com.kids.servent.handler.reliability.PingHandler;
+import com.kids.servent.handler.reliability.PongHandler;
 import com.kids.servent.handler.system.*;
 import com.kids.servent.handler.token.SuzukiTokenHandler;
 import com.kids.servent.handler.token.SuzukiTokenRequestHandler;
@@ -98,6 +100,12 @@ public class SimpleServentListener implements Runnable, Cancellable {
 						break;
 				case FOLLOW_ACCEPT:
 						messageHandler = new FollowAcceptHandler(clientMessage);
+						break;
+				case PING:
+						messageHandler = new PingHandler(clientMessage);
+						break;
+				case PONG:
+						messageHandler = new PongHandler(clientMessage);
 						break;
 				case POISON:
 					break;
