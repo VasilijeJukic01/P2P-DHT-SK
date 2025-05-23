@@ -1,6 +1,7 @@
 package com.kids.cli.command.implementation;
 
 import com.kids.app.AppConfig;
+import com.kids.app.reliability.ServentPulseManager;
 import com.kids.cli.CLIParser;
 import com.kids.cli.command.CLICommand;
 import com.kids.servent.SimpleServentListener;
@@ -20,6 +21,7 @@ public class StopCommand implements CLICommand {
 	@Override
 	public void execute(String args) {
 		AppConfig.timestampedStandardPrint("Stopping...");
+		ServentPulseManager.working = false;
 		parser.stop();
 		listener.stop();
 	}
