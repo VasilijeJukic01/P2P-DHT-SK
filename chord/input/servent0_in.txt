@@ -1,7 +1,7 @@
-pause 15000
+pause 60000
 upload cat0.png
 list_files localhost:1100
 remove_file cat0.png
 list_files localhost:1000
-pause 30000
+pause 80000
 stop

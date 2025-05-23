@@ -1,5 +1,5 @@
 pause 60000
-pause 9000
+pause 10000
 simulate_crash
-pause 80000
+pause 8000
 stop

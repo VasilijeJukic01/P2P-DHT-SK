@@ -1,6 +1,5 @@
 pause 60000
-visibility private
+upload dog6.png
 pause 10000
-upload cat1.png
 pause 80000
 stop

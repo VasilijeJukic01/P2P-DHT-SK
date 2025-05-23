@@ -1,7 +1,7 @@
-pause 15000
+pause 60000
 pending
 pause 5000
 pending
 accept localhost:1300
-pause 25000
+pause 80000
 stop

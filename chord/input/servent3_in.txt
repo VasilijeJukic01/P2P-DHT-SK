@@ -1,4 +1,4 @@
-pause 15000
+pause 60000
 follow localhost:1400
-pause 24000
+pause 80000
 stop
