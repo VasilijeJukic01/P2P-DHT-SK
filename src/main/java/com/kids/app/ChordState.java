@@ -13,6 +13,8 @@ import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.IntStream;
 
+import com.kids.app.reliability.ServentActivityTracker;
+import com.kids.app.reliability.ServentPulseManager;
 import com.kids.app.servent.ServentIdentity;
 import com.kids.app.servent.ServentInfo;
 import com.kids.app.system.SystemManager;
@@ -67,6 +69,8 @@ public class ChordState {
 
 	@Getter private final DistributedMutex<ServentIdentity, SuzukiKasamiToken> mutex;
 	@Getter private final SystemManager systemManager;
+	@Getter private final ServentActivityTracker tracker;
+	@Getter @Setter private ServentPulseManager pulseManager;
 
 	@Setter private ServentInfo[] successorTable;
 	@Setter private ServentInfo predecessorInfo;
@@ -92,9 +96,10 @@ public class ChordState {
 		
 		this.predecessorInfo = null;
 		this.data = new HashMap<>();
-		this.allNodeInfo = new ArrayList<>();
+		this.allNodeInfo = new CopyOnWriteArrayList<>();
 		this.mutex = new SuzukiKasamiMutex(CHORD_SIZE, AppConfig.myServentInfo.getChordId());
 		this.systemManager = new SystemManager(data, mutex, new CopyOnWriteArrayList<>(), new CopyOnWriteArrayList<>(), new CopyOnWriteArrayList<>());
+		this.tracker = new ServentActivityTracker();
 	}
 	
 	/**
@@ -270,6 +275,54 @@ public class ChordState {
 		}
 		else predecessorInfo = newList.get(newList.size()-1);
 		
+		updateSuccessorTable();
+	}
+
+	/**
+	 * This method removes the node from the list of all nodes and updates the successor table.
+	 * It also resets the predecessor's timestamp, because we may have a new predecessor.
+	 */
+	public void removeNode(ServentInfo terminationNode) {
+		for(int i = 0; i < allNodeInfo.size(); i++) {
+			ServentInfo serventInfo = allNodeInfo.get(i);
+			if (serventInfo.getIpAddress().equals(terminationNode.getIpAddress()) && serventInfo.getListenerPort() == terminationNode.getListenerPort()) {
+				allNodeInfo.remove(i);
+				break;
+			}
+		}
+
+		allNodeInfo.sort(Comparator.comparingInt(ServentInfo::getChordId));
+
+		List<ServentInfo> newList = new ArrayList<>();
+		List<ServentInfo> newList2 = new ArrayList<>();
+
+		int myId = AppConfig.myServentInfo.getChordId();
+		for (ServentInfo serventInfo : allNodeInfo) {
+			if (serventInfo.getChordId() < myId) {
+				newList2.add(serventInfo);
+			}
+			else newList.add(serventInfo);
+		}
+
+		allNodeInfo.clear();
+		allNodeInfo.addAll(newList);
+		allNodeInfo.addAll(newList2);
+		if (!newList2.isEmpty()) {
+			predecessorInfo = newList2.get(newList2.size()-1);
+		}
+		else if(!newList.isEmpty()) {
+			predecessorInfo = newList.get(newList.size()-1);
+		}
+		// We are the only node in the system
+		else {
+			predecessorInfo = null;
+			for (int i = 0; i < chordLevel; i++) {
+				successorTable[i] = null;
+			}
+			return;
+		}
+
+		tracker.resetTimestamp();
 		updateSuccessorTable();
 	}
 

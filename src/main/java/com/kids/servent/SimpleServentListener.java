@@ -14,8 +14,7 @@ import com.kids.servent.handler.core.NullHandler;
 import com.kids.servent.handler.core.SorryHandler;
 import com.kids.servent.handler.core.UpdateHandler;
 import com.kids.servent.handler.core.WelcomeHandler;
-import com.kids.servent.handler.reliability.PingHandler;
-import com.kids.servent.handler.reliability.PongHandler;
+import com.kids.servent.handler.reliability.*;
 import com.kids.servent.handler.system.*;
 import com.kids.servent.handler.token.SuzukiTokenHandler;
 import com.kids.servent.handler.token.SuzukiTokenRequestHandler;
@@ -96,17 +95,32 @@ public class SimpleServentListener implements Runnable, Cancellable {
 					messageHandler = new RemoveReplicaHandler(clientMessage);
 					break;
 				case FOLLOW_REQUEST:
-						messageHandler = new FollowRequestHandler(clientMessage);
-						break;
+					messageHandler = new FollowRequestHandler(clientMessage);
+					break;
 				case FOLLOW_ACCEPT:
-						messageHandler = new FollowAcceptHandler(clientMessage);
-						break;
+					messageHandler = new FollowAcceptHandler(clientMessage);
+					break;
 				case PING:
-						messageHandler = new PingHandler(clientMessage);
-						break;
+					messageHandler = new PingHandler(clientMessage);
+					break;
 				case PONG:
-						messageHandler = new PongHandler(clientMessage);
-						break;
+					messageHandler = new PongHandler(clientMessage);
+					break;
+				case RECOVERY:
+					messageHandler = new RecoveryHandler(clientMessage);
+					break;
+				case HELP_REQUEST:
+					messageHandler = new HelpRequestHandler(clientMessage);
+					break;
+				case HELP_CONFIRM:
+					messageHandler = new HelpConfirmHandler(clientMessage);
+					break;
+				case DO_YOU_HAVE_TOKEN:
+					messageHandler = new DoYouHaveTokenHandler(clientMessage);
+					break;
+				case HAVE_TOKEN:
+					messageHandler = new HaveTokenHandler(clientMessage);
+					break;
 				case POISON:
 					break;
 				}
