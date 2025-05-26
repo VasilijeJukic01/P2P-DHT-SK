@@ -106,13 +106,12 @@ public class ServentPulseManager implements Runnable, Cancellable {
                         mutex.getToken().removeNodeFromQueue(new ServentIdentity(predecessor.getIpAddress(), predecessor.getListenerPort()));
                     }
 
-
                     if (AppConfig.chordState.getAllNodeInfo().isEmpty()) {
                         AppConfig.timestampedStandardPrint("I am the only node in the network after removal.");
                     }
                     else {
                         sendRecoveryMessages(predecessor);
-                        triggerReReplication();
+                        AppConfig.chordState.getSystemManager().ensureDataReplication();
                     }
 
                     tracker.resolveSuspicionCycle();
@@ -183,11 +182,6 @@ public class ServentPulseManager implements Runnable, Cancellable {
                     MessageUtil.sendMessage(recoveryMessage);
                 });
         AppConfig.timestampedStandardPrint("Sent recovery messages regarding failed node " + failedNode);
-    }
-
-    private void triggerReReplication() {
-        // TODO: Maybe we will not need this? Replicated data ensures that the data is not lost.
-        AppConfig.timestampedStandardPrint("Node removal complete. Re-evaluating data replication.");
     }
 
     private boolean queryOtherNodesForToken(List<ServentIdentity> liveNodesToQuery) {

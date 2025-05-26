@@ -48,6 +48,7 @@ public class AppConfig {
 	public static int SERVENT_COUNT;
 	public static String ROOT_DIR;
 
+	public static int REPLICATION_FACTOR = 3;
 	public static int WEAK_TIMEOUT;
 	public static int STRONG_TIMEOUT;
 	

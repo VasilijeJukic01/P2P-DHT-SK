@@ -203,27 +203,24 @@ public class SystemManager {
 
     // Private
     private void createReplicas(FileData fileData) {
-        // Send to predecessor
-        ServentInfo predecessorInfo = AppConfig.chordState.getPredecessorInfo();
-        if(predecessorInfo != null && !predecessorInfo.equals(AppConfig.myServentInfo)) {
-            ReplicateMessage rm = new ReplicateMessage(
-                    AppConfig.myServentInfo.getIpAddress(),
-                    AppConfig.myServentInfo.getListenerPort(),
-                    predecessorInfo.getIpAddress(),
-                    predecessorInfo.getListenerPort(),
-                    fileData
-            );
-            MessageUtil.sendMessage(rm);
+        List<ServentInfo> replicationTargets = AppConfig.chordState.getReplicationNodes();
+
+        if (replicationTargets.isEmpty()) {
+            AppConfig.timestampedStandardPrint("No nodes available for replication of " + fileData.path());
+            return;
         }
 
-        // Send to successor
-        ServentInfo[] successorTable = AppConfig.chordState.getSuccessorTable();
-        if (successorTable[0] != null && !successorTable[0].equals(AppConfig.myServentInfo)) {
+        AppConfig.timestampedStandardPrint("Replicating " + fileData.path() + " to: " + replicationTargets);
+        for (ServentInfo targetNode : replicationTargets) {
+            if (targetNode.getChordId() == AppConfig.myServentInfo.getChordId()) {
+                continue;
+            }
+
             ReplicateMessage rm = new ReplicateMessage(
                     AppConfig.myServentInfo.getIpAddress(),
                     AppConfig.myServentInfo.getListenerPort(),
-                    successorTable[0].getIpAddress(),
-                    successorTable[0].getListenerPort(),
+                    targetNode.getIpAddress(),
+                    targetNode.getListenerPort(),
                     fileData
             );
             MessageUtil.sendMessage(rm);
@@ -231,32 +228,58 @@ public class SystemManager {
     }
 
     private void removeReplicas(int key, String value) {
-        // Send to predecessor
-        ServentInfo predecessorInfo = AppConfig.chordState.getPredecessorInfo();
-        if(predecessorInfo != null) {
+        List<ServentInfo> replicationTargets = AppConfig.chordState.getReplicationNodes();
+
+        if (replicationTargets.isEmpty()) {
+            AppConfig.timestampedStandardPrint("No nodes available to send remove_replica for " + value);
+            return;
+        }
+
+        AppConfig.timestampedStandardPrint("Sending remove_replica for " + value + " to: " + replicationTargets);
+        for (ServentInfo targetNode : replicationTargets) {
+            if (targetNode.getChordId() == AppConfig.myServentInfo.getChordId()) {
+                continue;
+            }
+
             RemoveReplicaMessage rrm = new RemoveReplicaMessage(
                     AppConfig.myServentInfo.getIpAddress(),
                     AppConfig.myServentInfo.getListenerPort(),
-                    predecessorInfo.getIpAddress(),
-                    predecessorInfo.getListenerPort(),
+                    targetNode.getIpAddress(),
+                    targetNode.getListenerPort(),
                     key,
                     value
             );
             MessageUtil.sendMessage(rrm);
         }
+    }
 
-        // Send to successor
-        ServentInfo[] successorTable = AppConfig.chordState.getSuccessorTable();
-        if (successorTable[0] != null) {
-            RemoveReplicaMessage rrm = new RemoveReplicaMessage(
-                    AppConfig.myServentInfo.getIpAddress(),
-                    AppConfig.myServentInfo.getListenerPort(),
-                    successorTable[0].getIpAddress(),
-                    successorTable[0].getListenerPort(),
-                    key,
-                    value
-            );
-            MessageUtil.sendMessage(rrm);
+    public void ensureDataReplication() {
+        AppConfig.timestampedStandardPrint("Ensuring data replication for primary owned files.");
+
+        /*  Snapshot of keys for which this node is primary to avoid concurrent modification
+             issues if the data map itself gets modified during replication.
+         */
+        List<Integer> primaryKeys = new ArrayList<>();
+        for (Integer key : data.keySet()) {
+            if (AppConfig.chordState.isKeyMine(key)) primaryKeys.add(key);
+        }
+
+        for (Integer fileKey : primaryKeys) {
+            Map<String, FileData> filesForKey = data.get(fileKey);
+            if (filesForKey != null) {
+                // Create a copy of file entries for this key
+                Map<String, FileData> filesToReplicateSnapshot = new HashMap<>(filesForKey);
+                for (Map.Entry<String, FileData> fileEntry : filesToReplicateSnapshot.entrySet()) {
+                    FileData fileData = fileEntry.getValue();
+                    /*
+                    This node is primary for fileKey. It's responsible for this fileData's replication.
+                    The original uploader check in the thought process was too restrictive.
+                    If this node is now primary for a key, it's responsible for all data under that key.
+                     */
+                    AppConfig.timestampedStandardPrint("Re-evaluating replicas for data with key " + fileKey + ", path: " + fileData.path() + " (Original uploader: " + fileData.serventIdentity() + ")");
+                    createReplicas(fileData);
+                }
+            }
         }
     }
 

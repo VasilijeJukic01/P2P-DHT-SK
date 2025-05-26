@@ -326,6 +326,24 @@ public class ChordState {
 		updateSuccessorTable();
 	}
 
+	public List<ServentInfo> getReplicationNodes() {
+		List<ServentInfo> replicationTargets = new ArrayList<>();
+
+		if (allNodeInfo.isEmpty() || AppConfig.REPLICATION_FACTOR <= 1) return replicationTargets;
+
+		int replicasToFind = AppConfig.REPLICATION_FACTOR - 1;
+
+		for (ServentInfo successor : allNodeInfo) {
+			if (replicationTargets.size() < replicasToFind) {
+				if (successor.getChordId() != AppConfig.myServentInfo.getChordId()) {
+					replicationTargets.add(successor);
+				}
+			}
+			else break;
+		}
+		return replicationTargets;
+	}
+
 	public int getNextNodePort() {
 		return successorTable[0].getListenerPort();
 	}
