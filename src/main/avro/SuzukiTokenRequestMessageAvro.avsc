@@ -1,0 +1,14 @@
+{
+  "type": "record",
+  "name": "SuzukiTokenRequestMessageAvro",
+  "namespace": "com.kids.avro",
+  "fields": [
+    {"name": "messageTypeOrdinal", "type": "int"},
+    {"name": "senderIp", "type": "string"},
+    {"name": "senderPort", "type": "int"},
+    {"name": "receiverIp", "type": "string"},
+    {"name": "receiverPort", "type": "int"},
+    {"name": "messageId", "type": "int"},
+    {"name": "senderRN", "type": "int"}
+  ]
+}

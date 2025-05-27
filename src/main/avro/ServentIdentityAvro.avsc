@@ -1,0 +1,9 @@
+{
+  "type": "record",
+  "name": "ServentIdentityAvro",
+  "namespace": "com.kids.avro",
+  "fields": [
+    {"name": "ip", "type": "string"},
+    {"name": "port", "type": "int"}
+  ]
+}
