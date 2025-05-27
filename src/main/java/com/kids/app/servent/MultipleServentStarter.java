@@ -46,7 +46,7 @@ public class MultipleServentStarter {
 					for (Process process : serventProcesses) {
 						process.destroy();
 					}
-					bsProcess.destroy();
+					if (bsProcess != null) bsProcess.destroy();
 					break;
 				}
 			}
@@ -60,16 +60,19 @@ public class MultipleServentStarter {
 	 */
 	private static void startServentTest(String testName) {
 		List<Process> serventProcesses = new ArrayList<>();
-		
-		AppConfig.readConfig(testName+"/servent_list.properties", 0);
-		
+		AppConfig.readConfig(testName + "/servent_list.properties", 0);
 		AppConfig.timestampedStandardPrint("Starting multiple servent runner. If servents do not finish on their own, type \"stop\" to finish them");
-		
+
+		String classpath = System.getProperty("java.class.path");
+
 		Process bsProcess = null;
 		ProcessBuilder bsBuilder = new ProcessBuilder(
-				"java", "-cp", "build\\classes\\java\\main", "com.kids.app.bootstrap.BootstrapServer",
+				"java", "-cp", classpath,
+				"com.kids.app.bootstrap.BootstrapServer",
 				String.valueOf(AppConfig.BOOTSTRAP_PORT)
 		);
+		bsBuilder.redirectOutput(new File(testName + "/output/bootstrap_out.txt"));
+		bsBuilder.redirectError(new File(testName + "/error/bootstrap_err.txt"));
 		try {
 			bsProcess = bsBuilder.start();
 		} catch (IOException e) {
@@ -82,23 +85,23 @@ public class MultipleServentStarter {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		
+
 		int serventCount = AppConfig.SERVENT_COUNT;
-		
-		for(int i = 0; i < serventCount; i++) {
+		for (int i = 0; i < serventCount; i++) {
 			try {
 				ProcessBuilder builder = new ProcessBuilder(
-						"java", "-cp", "build\\classes\\java\\main", "com.kids.app.servent.ServentMain", testName+"/servent_list.properties",
+						"java", "-cp", classpath,
+						"com.kids.app.servent.ServentMain",
+						testName + "/servent_list.properties",
 						String.valueOf(i)
 				);
-
-				builder.redirectOutput(new File(testName+"/output/servent" + i + "_out.txt"));
-				builder.redirectError(new File(testName+"/error/servent" + i + "_err.txt"));
-				builder.redirectInput(new File(testName+"/input/servent" + i + "_in.txt"));
+				builder.redirectOutput(new File(testName + "/output/servent" + i + "_out.txt"));
+				builder.redirectError(new File(testName + "/error/servent" + i + "_err.txt"));
+				builder.redirectInput(new File(testName + "/input/servent" + i + "_in.txt"));
 
 				Process p = builder.start();
 				serventProcesses.add(p);
-				
+
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -121,17 +124,18 @@ public class MultipleServentStarter {
 				e.printStackTrace();
 			}
 		}
-		
+
 		AppConfig.timestampedStandardPrint("All servent processes finished. Type \"stop\" to halt bootstrap.");
-		try {
-			bsProcess.waitFor();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
+		if (bsProcess != null) {
+			try {
+				bsProcess.waitFor();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 		}
 	}
-	
+
 	public static void main(String[] args) {
 		startServentTest("chord");
 	}
-
 }

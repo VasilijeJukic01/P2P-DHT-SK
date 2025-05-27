@@ -1,11 +1,10 @@
 package com.kids.servent.message.util;
 
 import java.io.IOException;
-import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import java.net.Socket;
 
 import com.kids.app.AppConfig;
-import com.kids.servent.message.Message;
 import lombok.AllArgsConstructor;
 
 /**
@@ -18,34 +17,29 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class DelayedMessageSender implements Runnable {
 
-	private final Message messageToSend;
-	
+	private final byte serializationType;
+	private final byte[] payload;
+	private final String receiverIpAddress;
+	private final int receiverPort;
+	private final String originalMessageToString;
+
 	public void run() {
-		/*
-		 * A random sleep before sending.
-		 * It is important to take regular naps for health reasons.
-		 */
 		try {
 			Thread.sleep((long)(Math.random() * 1000) + 500);
 		} catch (InterruptedException e1) {
 			e1.printStackTrace();
 		}
-		
+
 		if (MessageUtil.MESSAGE_UTIL_PRINTING) {
-			AppConfig.timestampedStandardPrint("Sending message " + messageToSend);
+			AppConfig.timestampedStandardPrint("Sending message " + originalMessageToString);
 		}
-		
-		try {
-			Socket sendSocket = new Socket(messageToSend.getReceiverIpAddress(), messageToSend.getReceiverPort());
-			
-			ObjectOutputStream oos = new ObjectOutputStream(sendSocket.getOutputStream());
-			oos.writeObject(messageToSend);
-			oos.flush();
-			
-			sendSocket.close();
+
+		try (Socket sendSocket = new Socket(receiverIpAddress, receiverPort); OutputStream os = sendSocket.getOutputStream()) {
+			os.write(serializationType);
+			os.write(payload);
+			os.flush();
 		} catch (IOException e) {
-			AppConfig.timestampedErrorPrint("Couldn't send message: " + messageToSend);
+			AppConfig.timestampedErrorPrint("Couldn't send message: " + originalMessageToString + " to " + receiverIpAddress + ":" + receiverPort);
 		}
 	}
-	
 }

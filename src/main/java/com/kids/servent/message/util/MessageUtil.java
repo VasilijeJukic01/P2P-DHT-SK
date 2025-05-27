@@ -1,53 +1,53 @@
 package com.kids.servent.message.util;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.net.Socket;
-
 import com.kids.app.AppConfig;
 import com.kids.servent.message.Message;
+import com.kids.servent.message.serializer.MessageDeserializer;
+import com.kids.servent.message.serializer.MessageSerializer;
+import com.kids.servent.message.serializer.SerializerFactory;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.Socket;
 
-/**
- * For now, just the read and send implementation, based on Java serializing.
- * Not too smart. Doesn't even check the neighbor list, so it actually allows cheating.
- * <p>
- * When reading, if we are FIFO, we send an ACK message on the same socket, so the other side
- * knows they can send the next message.
- * @author bmilojkovic
- *
- */
 public class MessageUtil {
 
-	/**
-	 * Normally this should be true, because it helps with debugging.
-	 * Flip this to false to disable printing every message send / receive.
-	 */
 	public static final boolean MESSAGE_UTIL_PRINTING = true;
-	
+	public static final byte JAVA_SERIALIZED = 0x01;
+	public static final byte AVRO_SERIALIZED = 0x02;
+
 	public static Message readMessage(Socket socket) {
-		
 		Message clientMessage = null;
-			
-		try {
-			ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
-			clientMessage = (Message) ois.readObject();
-			
-			socket.close();
-		} catch (IOException e) {
-			AppConfig.timestampedErrorPrint("Error in reading socket on " + socket.getInetAddress() + ":" + socket.getPort());
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-		
-		if (MESSAGE_UTIL_PRINTING) {
-			AppConfig.timestampedStandardPrint("Got message " + clientMessage);
-		}
-				
+        try (socket; InputStream is = socket.getInputStream()) {
+            int serializationType = is.read();
+
+            MessageDeserializer deserializer = SerializerFactory.getDeserializer((byte) serializationType);
+            clientMessage = deserializer.deserialize(is);
+
+            if (MESSAGE_UTIL_PRINTING && clientMessage != null) {
+                AppConfig.timestampedStandardPrint("Got message " + clientMessage);
+            }
+        } catch (Exception e) {
+            AppConfig.timestampedErrorPrint("Error processing received message: " + e.getMessage());
+            e.printStackTrace();
+        }
 		return clientMessage;
 	}
-	
+
 	public static void sendMessage(Message message) {
-		Thread delayedSender = new Thread(new DelayedMessageSender(message));
-		delayedSender.start();
+		try {
+			MessageSerializer serializer = SerializerFactory.getSerializer(message);
+			byte serializationType = serializer.getSerializationType();
+			byte[] payload = serializer.serialize(message);
+			String originalToString = message.toString();
+
+			Thread delayedSender = new Thread(new DelayedMessageSender(
+					serializationType, payload,
+					message.getReceiverIpAddress(), message.getReceiverPort(),
+					originalToString));
+			delayedSender.start();
+
+		} catch (IOException e) {
+			AppConfig.timestampedErrorPrint("Error serializing message " + message + ": " + e.getMessage());
+		}
 	}
 }

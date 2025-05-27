@@ -1,6 +1,8 @@
 package com.kids.mutex;
 
 import com.kids.app.servent.ServentIdentity;
+import com.kids.avro.ServentIdentityAvro;
+import com.kids.avro.SuzukiKasamiTokenPayloadAvro;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,6 +11,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 /**
@@ -31,6 +34,25 @@ public class SuzukiKasamiToken implements Serializable {
         this.queue = new LinkedList<>();
 
         IntStream.range(0, numNodes).forEach(i -> LN.add(0));
+    }
+
+    // From Avro
+    public SuzukiKasamiToken(SuzukiKasamiTokenPayloadAvro avroPayload) {
+        this.LN = new ArrayList<>(avroPayload.getLN());
+        this.queue = avroPayload.getQueue().stream()
+                .map(avroId -> new ServentIdentity(avroId.getIp(), avroId.getPort()))
+                .collect(Collectors.toCollection(LinkedList::new));
+    }
+
+    // To Avro
+    public SuzukiKasamiTokenPayloadAvro toAvroPayload() {
+        List<ServentIdentityAvro> queueAvro = this.queue.stream()
+                .map(id -> ServentIdentityAvro.newBuilder().setIp(id.ip()).setPort(id.port()).build())
+                .collect(Collectors.toList());
+        return SuzukiKasamiTokenPayloadAvro.newBuilder()
+                .setLN(new ArrayList<>(this.LN))
+                .setQueue(queueAvro)
+                .build();
     }
 
     public void removeNodeFromQueue(ServentIdentity serventIdentity) {
