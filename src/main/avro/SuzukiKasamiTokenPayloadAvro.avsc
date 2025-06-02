@@ -1,0 +1,9 @@
+{
+  "type": "record",
+  "name": "SuzukiKasamiTokenPayloadAvro",
+  "namespace": "com.kids.avro",
+  "fields": [
+    {"name": "LN", "type": {"type": "array", "items": "int"}},
+    {"name": "queue", "type": {"type": "array", "items": "ServentIdentityAvro"}}
+  ]
+}

@@ -31,7 +31,7 @@ public class UpdateHandler implements MessageHandler {
 		}
 
 		UpdateMessage updateMessage = (UpdateMessage) clientMessage;
-		boolean isFromCurrentNode = updateMessage.getSenderPort() == AppConfig.myServentInfo.getListenerPort();
+		boolean isFromCurrentNode = updateMessage.getSenderIpAddress().equals(AppConfig.myServentInfo.getIpAddress()) && updateMessage.getSenderPort() == AppConfig.myServentInfo.getListenerPort();
 
 		if (isFromCurrentNode) handleSelfUpdate(updateMessage);
 		else forwardUpdate(updateMessage);

@@ -6,6 +6,7 @@ import com.kids.mutex.SuzukiKasamiMutex;
 import com.kids.servent.handler.MessageHandler;
 import com.kids.servent.message.Message;
 import com.kids.servent.message.MessageType;
+import com.kids.servent.message.avro.AvroSKRequestWrapperMessage;
 import com.kids.servent.message.token.SuzukiTokenRequestMessage;
 import com.kids.app.servent.ServentIdentity;
 import lombok.AllArgsConstructor;
@@ -20,16 +21,27 @@ public class SuzukiTokenRequestHandler implements MessageHandler {
         try {
             if (clientMessage.getMessageType() == MessageType.SUZUKI_TOKEN_REQUEST) {
                 SuzukiKasamiMutex suzukiKasamiMutex = (SuzukiKasamiMutex) AppConfig.chordState.getMutex();
-                SuzukiTokenRequestMessage tokenRequestMessage = (SuzukiTokenRequestMessage) clientMessage;
-                int senderChordId = ChordState.chordHash(tokenRequestMessage.getSenderIpAddress() + ":" + tokenRequestMessage.getSenderPort());
-                int senderRN = tokenRequestMessage.getSenderRN();
+
+                int senderChordId = ChordState.chordHash(clientMessage.getSenderIpAddress() + ":" + clientMessage.getSenderPort());
+                int senderRN;
+
+                if (clientMessage instanceof AvroSKRequestWrapperMessage wrapper) {
+                    senderRN = wrapper.getSenderRN();
+                }
+                else if (clientMessage instanceof SuzukiTokenRequestMessage legacyMsg) {
+                    senderRN = legacyMsg.getSenderRN();
+                }
+                else {
+                    AppConfig.timestampedErrorPrint("Unexpected message type in SuzukiTokenRequestHandler: " + clientMessage.getClass().getName());
+                    return;
+                }
 
                 if (suzukiKasamiMutex.getRN().get(senderChordId) < senderRN) {
                     suzukiKasamiMutex.getRN().set(senderChordId, senderRN);
 
                     // Have token and not in CS -> Send token
                     if (suzukiKasamiMutex.hasToken() && suzukiKasamiMutex.getToken().getLN().get(senderChordId) + 1 == senderRN) {
-                        ServentIdentity senderServentIdentity = new ServentIdentity(tokenRequestMessage.getSenderIpAddress(), tokenRequestMessage.getSenderPort());
+                        ServentIdentity senderServentIdentity = new ServentIdentity(clientMessage.getSenderIpAddress(), clientMessage.getSenderPort());
                         suzukiKasamiMutex.getToken().getQueue().add(senderServentIdentity);
 
                         // Send token if not in CS
@@ -41,6 +53,7 @@ public class SuzukiTokenRequestHandler implements MessageHandler {
             }
         } catch (Exception e) {
             AppConfig.timestampedErrorPrint("Error in token request handler: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 }

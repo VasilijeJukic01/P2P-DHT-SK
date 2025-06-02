@@ -31,6 +31,10 @@ public class BasicMessage implements Message {
 	private static final AtomicInteger messageCounter = new AtomicInteger(0);
 	private final int messageId;
 
+	public static int getNextMessageId() {
+		return messageCounter.getAndIncrement();
+	}
+
 	public BasicMessage(MessageType type, String senderIpAddress, int senderPort, String receiverIpAddress, int receiverPort) {
 		this.type = type;
 		this.senderIpAddress = senderIpAddress;
@@ -39,7 +43,7 @@ public class BasicMessage implements Message {
 		this.receiverPort = receiverPort;
 		this.messageText = "";
 
-		this.messageId = messageCounter.getAndIncrement();
+		this.messageId = getNextMessageId();
 	}
 
 	public BasicMessage(MessageType type, String senderIpAddress, int senderPort, String receiverIpAddress, int receiverPort, String messageText) {
@@ -50,7 +54,7 @@ public class BasicMessage implements Message {
 		this.receiverPort = receiverPort;
 		this.messageText = messageText;
 
-		this.messageId = messageCounter.getAndIncrement();
+		this.messageId = getNextMessageId();
 	}
 	
 	@Override

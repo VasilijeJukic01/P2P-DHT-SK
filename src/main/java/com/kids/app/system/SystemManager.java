@@ -36,7 +36,7 @@ public class SystemManager {
             createReplicas(fileData);
 
             // Unlock if we are the one who locked
-            if(port == AppConfig.myServentInfo.getListenerPort()) suzukiKasamiMutex.unlock();
+            if(address.equals(AppConfig.myServentInfo.getIpAddress()) && port == AppConfig.myServentInfo.getListenerPort()) suzukiKasamiMutex.unlock();
             else {
                 UploadAckMessage unlockMessage = new UploadAckMessage(
                         AppConfig.myServentInfo.getIpAddress(),
