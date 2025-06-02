@@ -150,8 +150,8 @@ This project uses Apache Avro for serializing specific, critical message types: 
 
 1.  Clone the repository:
     ```bash
-    git clone https://github.com/VasilijeJukic01/KIDS-P3
-    cd KIDS-P3
+    git clone https://github.com/VasilijeJukic01/P2P-DHT-SK
+    cd P2P-DHT-SK
     ```
 2.  Build the project using Gradle to create a shadow JAR:
     ```bash
@@ -161,7 +161,7 @@ This project uses Apache Avro for serializing specific, critical message types: 
     ```bash
     gradlew.bat shadowJar
     ```
-    This will create an executable JAR in `build/libs/KiDS-P3-1.0-SNAPSHOT-all.jar`.
+    This will create an executable JAR in `build/libs/P2P-DHT-SK-1.0-SNAPSHOT-all.jar`.
 
 ### Running the Simulation
 
@@ -171,7 +171,7 @@ The project is designed to be run as a multi-servent simulation controlled by co
 2.  By default, it expects a directory named `chord` in the project's root, containing the `servent_list.properties` file and `input`, `output`, `error` subdirectories.
 3.  To run the simulation after building:
     ```bash
-    java -jar build/libs/KiDS-P3-1.0-SNAPSHOT-all.jar
+    java -jar build/libs/P2P-DHT-SK-1.0-SNAPSHOT-all.jar
     ```
     This will:
     *   Start a bootstrap server.
